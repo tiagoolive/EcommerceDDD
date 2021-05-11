@@ -1,4 +1,5 @@
 ﻿using Entities.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Configuration
 {
-    public class ContextBase : DbContext
+    public class ContextBase : IdentityDbContext<ApplicationUser>
     {
         public ContextBase(DbContextOptions<ContextBase> options) : base(options)
         {
@@ -28,7 +29,7 @@ namespace Infrastructure.Configuration
 
         private string GetStringConectionConfig()
         {
-            string strCon = "Data Source=DESKTOP-AIEAQ62; Database=DDD_ECOMMERCE; Trusted_Connection=true";
+            string strCon = "Server=DESKTOP-AIEAQ62; Database=DDD_ECOMMERCE; Trusted_Connection=true";
             return strCon;
         }
 
