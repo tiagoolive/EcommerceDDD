@@ -18,16 +18,45 @@ namespace Entities.Entities
         public int Id { get; set; }
 
         [Column("PRD_NOME")]
+        [MaxLength(255)]
         [Display(Name = "Nome")]
         public string Nome { get; set; }
+
+        [Column("PRD_DESCRICAO")]
+        [MaxLength(150)]
+        [Display(Name = "Descrição")]
+        public string Descricao { get; set; }
+
+        [Column("PRD_OBSERVACAO")]
+        [Display(Name = "Observação")]
+        [MaxLength(20000)]
+        public string Observacao { get; set; }
 
         [Column("PRD_VALO")]
         [Display(Name = "Valor")]
         public decimal Valor { get; set; }
 
+        [Column("PRD_QTD_ESTOQUE")]
+        [Display(Name = "Quantidade Estoque")]
+        public string QtdEstoque { get; set; }
+
+        [Display(Name ="Usuário")]
+        [ForeignKey("ApplicationUser")]
+        [Column(Order = 1)]
+        public string UserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
+
         [Column("PRD_ESTADO")]
         [Display(Name = "Estado")]
         public bool Estado { get; set; }
+
+        [Column("PRD_DATA_CADASTRO")]
+        [Display(Name = "Data de Cadastro")]
+        public string DataCadastro { get; set; }
+
+        [Column("PRD_DATA_ALTERACAO")]
+        [Display(Name = "Data de alteração")]
+        public DateTime DataAlteracao { get; set; }
 
     }
 }
