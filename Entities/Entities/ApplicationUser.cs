@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Entities
 {
-    public class ApplicationUser : IdentityUser<string>
+    public class ApplicationUser : IdentityUser
     {
         [Column("USR_CPF")]
         [MaxLength(50)]

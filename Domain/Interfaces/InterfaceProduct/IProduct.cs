@@ -10,6 +10,6 @@ namespace Domain.Interfaces.InterfaceProduct
 {
     public interface IProduct : IGeneric<Produto>
     {
-
+        Task<List<Produto>> ListarProdutosUsuario(string userId);
     }
 }

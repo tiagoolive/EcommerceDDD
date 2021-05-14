@@ -38,7 +38,7 @@ namespace Entities.Entities
 
         [Column("PRD_QTD_ESTOQUE")]
         [Display(Name = "Quantidade Estoque")]
-        public string QtdEstoque { get; set; }
+        public int QtdEstoque { get; set; }
 
         [Display(Name ="Usuário")]
         [ForeignKey("ApplicationUser")]
@@ -52,7 +52,7 @@ namespace Entities.Entities
 
         [Column("PRD_DATA_CADASTRO")]
         [Display(Name = "Data de Cadastro")]
-        public string DataCadastro { get; set; }
+        public DateTime DataCadastro { get; set; }
 
         [Column("PRD_DATA_ALTERACAO")]
         [Display(Name = "Data de alteração")]
