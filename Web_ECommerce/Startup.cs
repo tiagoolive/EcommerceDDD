@@ -22,6 +22,7 @@ using ApplicationApp.OpenApp;
 using Domain.Interfaces.InterfaceServices;
 using Domain.Services;
 using Entities.Entities;
+using Domain.Interfaces.InterfaceCompraUsuario;
 
 namespace Web_ECommerce
 {
@@ -48,9 +49,11 @@ namespace Web_ECommerce
             // INTERFACE E REPOSITORIO
             services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
             services.AddSingleton<IProduct, RepositoryProduct>();
+            services.AddSingleton<ICompraUsuario, RepositoryCompraUsuario>();
 
             // INTERFACE APLICAÇÃO
             services.AddSingleton<InterfaceProductApp, AppProduct>();
+            services.AddSingleton<InterfaceCompraUsuarioApp, AppCompraUsuario>();
 
             // SERVIÇO DOMINIO
             services.AddSingleton<IServiceProduct, ServiceProduct>();
