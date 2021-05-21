@@ -58,5 +58,11 @@ namespace Entities.Entities
         [Display(Name = "Data de alteração")]
         public DateTime DataAlteracao { get; set; }
 
+        [NotMapped]
+        public int IdProdutoCarrinho { get; set; }
+
+        [NotMapped]
+        public int QtdCompra { get; set; }
+
     }
 }

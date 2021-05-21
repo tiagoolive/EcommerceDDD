@@ -14,5 +14,10 @@ namespace Domain.Interfaces.InterfaceProduct
         Task<List<Produto>> ListarProdutosUsuario(string userId);
 
         Task<List<Produto>> ListarProdutos(Expression<Func<Produto, bool>> exProduto);
+
+        Task<List<Produto>> ListarProdutosCarrinhoUsuario(string userId);
+
+        Task<Produto> ObterProdutoCarrinho(int idProdutoCarrinho);
+
     }
 }

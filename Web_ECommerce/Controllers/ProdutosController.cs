@@ -18,11 +18,13 @@ namespace Web_ECommerce.Controllers
     {
 
         public readonly UserManager<ApplicationUser> _userManager;
+        public readonly InterfaceCompraUsuarioApp _interfaceCompraUsuarioApp;
         public readonly InterfaceProductApp _InterfaceProductApp;
 
-        public ProdutosController(InterfaceProductApp InterfaceProductApp, UserManager<ApplicationUser> userManager)
+        public ProdutosController(InterfaceProductApp InterfaceProductApp, UserManager<ApplicationUser> userManager, InterfaceCompraUsuarioApp interfaceCompraUsuarioApp)
         {
             _userManager = userManager;
+            _interfaceCompraUsuarioApp = interfaceCompraUsuarioApp;
             _InterfaceProductApp = InterfaceProductApp;
         }
 
@@ -147,12 +149,43 @@ namespace Web_ECommerce.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet ("api/ListarProdutosComEstoque")]
+        [HttpGet ("/api/ListarProdutosComEstoque")]
         public async Task<JsonResult> ListarProdutosComEstoque()
         {
             return Json(await _InterfaceProductApp.ListarProdutosComEstoque());
         }
 
-  
+        public async Task<IActionResult> ListarProdutosCarrinhoUsuario()
+        {
+            var idUsuario = await RetornarIdUsuarioLogado();
+
+            return View(await _InterfaceProductApp.ListarProdutosCarrinhoUsuario(idUsuario));
+        }
+
+        // GET: ProdutosController/Delete/5
+        public async Task<IActionResult> RemoverCarrinho(int id)
+        {
+            return View(await _InterfaceProductApp.ObterProdutoCarrinho(id));
+        }
+
+        // POST: ProdutosController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoverCarrinho(int id, Produto produto)
+        {
+            try
+            {
+                var produtoDeletar = await _interfaceCompraUsuarioApp.GetEntityById(id);
+
+                await _interfaceCompraUsuarioApp.Delete(produtoDeletar);
+
+                return RedirectToAction(nameof(ListarProdutosCarrinhoUsuario));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }
