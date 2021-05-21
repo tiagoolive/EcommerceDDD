@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Entities.Entities.Enums;
 
 namespace Web_ECommerce.Areas.Identity.Pages.Account
 {
@@ -52,6 +53,42 @@ namespace Web_ECommerce.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
+            [MaxLength(50)]
+            [Display(Name = "CPF")]
+            public string CPF { get; set; }
+
+
+            [Display(Name = "Idade")]
+            public int Idade { get; set; }
+
+            [Required]
+            [MaxLength(255)]
+            [Display(Name = "Nome")]
+            public string Nome { get; set; }
+
+            [Required]
+            [MaxLength(15)]
+            [Display(Name = "CEP")]
+            public string CEP { get; set; }
+
+            [Required]
+            [MaxLength(255)]
+            [Display(Name = "Endereço")]
+            public string Endereco { get; set; }
+
+            [MaxLength(450)]
+            [Display(Name = "Complemento de endereço")]
+            public string ComplementoEndereco { get; set; }
+
+            [MaxLength(20)]
+            [Display(Name = "Celular")]
+            public string Celular { get; set; }
+
+            [MaxLength(20)]
+            [Display(Name = "Telefone")]
+            public string Telefone { get; set; }
+
+            [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -75,7 +112,20 @@ namespace Web_ECommerce.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    Celular = Input.Celular,
+                    CEP = Input.CEP,
+                    CPF = Input.CPF,
+                    Telefone = Input.Telefone,
+                    Endereço = Input.Endereco,
+                    ComplementoEndereco = Input.ComplementoEndereco,
+                    Idade = Input.Idade,
+                    Nome = Input.Nome,
+                    Estado = true,
+                    Tipo = TipoUsuario.Comum
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
