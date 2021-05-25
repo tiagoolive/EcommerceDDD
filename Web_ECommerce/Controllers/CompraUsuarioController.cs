@@ -21,6 +21,40 @@ namespace Web_ECommerce.Controllers
             _interfaceCompraUsuarioApp = interfaceCompraUsuarioApp;
         }
 
+        public async Task<IActionResult> FinalizaCompra()
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+            var compraUsuario = await _interfaceCompraUsuarioApp.CarrinhoCompras(usuario.Id);
+            return View(compraUsuario);
+        }
+
+        public async Task<IActionResult> MinhasCompras(bool mensagem = false)
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+            var compraUsuario = await _interfaceCompraUsuarioApp.ProdutosComprados(usuario.Id);
+
+            if (mensagem)
+            {
+                ViewBag.Sucesso = true;
+                ViewBag.Mensagem = "Compra efetivada com sucesso. Pague o boleto para garantir sua compra!";
+            }
+
+            return View(compraUsuario);
+        }
+
+        public async Task<IActionResult> ConfirmaCompra()
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+            var sucesso = await _interfaceCompraUsuarioApp.ConfirmaCompraCarrinhoUsuario(usuario.Id);
+
+            if (sucesso)
+            {
+                return RedirectToAction("MinhasCompras", new { mensagem = true });
+            }
+            else
+                return RedirectToAction("FinalizarCompra");
+        }
+
         [HttpPost("api/AdicionarProdutoCarrinho")]
         public async Task<JsonResult> AdicionarProdutoCarrinho(string id, string nome, string qtd)
         {

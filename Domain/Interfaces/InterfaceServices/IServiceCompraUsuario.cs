@@ -5,14 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApplicationApp.Interfaces
+namespace Domain.Interfaces.InterfaceServices
 {
-    public interface InterfaceCompraUsuarioApp : InterfaceGenericaApp<CompraUsuario>
+    public interface IServiceCompraUsuario
     {
-        public Task<int> QuantidadeProdutoCarrinhoUsuario(string userId);
-
         public Task<CompraUsuario> CarrinhoCompras(string userId);
         public Task<CompraUsuario> ProdutosComprados(string userId);
-        public Task<bool> ConfirmaCompraCarrinhoUsuario(string userId);
     }
 }
