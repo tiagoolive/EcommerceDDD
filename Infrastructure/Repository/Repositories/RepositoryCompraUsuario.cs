@@ -32,7 +32,7 @@ namespace Infrastructure.Repository.Repositories
 
                     var produtosCarrinhoUsuario = await (from p in banco.Produto
                                                          join c in banco.CompraUsuario on p.Id equals c.IdProduto
-                                                         where c.UserId.Equals(userId) && c.Estado == EnumEstadoCompra.Produto_Caminho
+                                                         where c.UserId.Equals(userId) && c.Estado == EnumEstadoCompra.Produto_Carrinho
                                                          select c).AsNoTracking().ToListAsync();
 
                     produtosCarrinhoUsuario.ForEach(p =>
