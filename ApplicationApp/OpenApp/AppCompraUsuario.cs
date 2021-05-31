@@ -27,9 +27,9 @@ namespace ApplicationApp.OpenApp
             return await _iServiceCompraUsuario.CarrinhoCompras(userId);
         }
 
-        public async Task<CompraUsuario> ProdutosComprados(string userId)
+        public async Task<CompraUsuario> ProdutosComprados(string userId, int? idCompra = null)
         {
-            return await _iServiceCompraUsuario.ProdutosComprados(userId);
+            return await _iServiceCompraUsuario.ProdutosComprados(userId, idCompra);
         }
 
         public async Task<bool> ConfirmaCompraCarrinhoUsuario(string userId)
@@ -67,6 +67,14 @@ namespace ApplicationApp.OpenApp
             await _iCompraUsuario.Update(Objeto);
         }
 
-       
+        public async Task<List<CompraUsuario>> MinhasCompras(string userId)
+        {
+            return await _iServiceCompraUsuario.MinhasCompras(userId);
+        }
+
+        public async Task AdicionaProdutoCarrinho(string userId, CompraUsuario compraUsuario)
+        {
+            await _iServiceCompraUsuario.AdicionaProdutoCarrinho(userId, compraUsuario);
+        }
     }
 }

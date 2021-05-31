@@ -35,7 +35,7 @@ namespace Web_ECommerce.Controllers
         public async Task<IActionResult> MinhasCompras(bool mensagem = false)
         {
             var usuario = await _userManager.GetUserAsync(User);
-            var compraUsuario = await _interfaceCompraUsuarioApp.ProdutosComprados(usuario.Id);
+            var compraUsuario = await _interfaceCompraUsuarioApp.MinhasCompras(usuario.Id);
 
             if (mensagem)
             {
@@ -59,11 +59,11 @@ namespace Web_ECommerce.Controllers
                 return RedirectToAction("FinalizarCompra");
         }
 
-        public async Task<IActionResult> Imprimir()
+        public async Task<IActionResult> Imprimir(int id)
         {
             var usuario = await _userManager.GetUserAsync(User);
 
-            var compraUsuario = await _interfaceCompraUsuarioApp.ProdutosComprados(usuario.Id);
+            var compraUsuario = await _interfaceCompraUsuarioApp.ProdutosComprados(usuario.Id, id);
 
             return await Download(compraUsuario, _environment);
         }
@@ -75,7 +75,7 @@ namespace Web_ECommerce.Controllers
 
             if (usuario != null)
             {
-                await _interfaceCompraUsuarioApp.Add(new CompraUsuario
+                await _interfaceCompraUsuarioApp.AdicionaProdutoCarrinho(usuario.Id, new CompraUsuario
                 {
                     IdProduto = Convert.ToInt32(id),
                     QtdCompra = Convert.ToInt32(qtd),

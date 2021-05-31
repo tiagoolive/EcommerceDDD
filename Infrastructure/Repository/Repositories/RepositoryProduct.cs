@@ -36,7 +36,9 @@ namespace Infrastructure.Repository.Repositories
             {
                 var produtosCarrinhoUsuario = await (from p in banco.Produto
                                                join c in banco.CompraUsuario on p.Id equals c.IdProduto
-                                               where c.UserId.Equals(userId) && c.Estado == EnumEstadoCompra.Produto_Carrinho
+                                               join co in banco.Compra on c.IdCompra equals co.Id
+                                               where c.UserId.Equals(userId) 
+                                               && c.Estado == EnumEstadoCompra.Produto_Carrinho
                                                select new Produto
                                                {
                                                    Id = p.Id,
@@ -46,7 +48,8 @@ namespace Infrastructure.Repository.Repositories
                                                    Valor = p.Valor,
                                                    QtdCompra = c.QtdCompra,
                                                    IdProdutoCarrinho = c.Id,
-                                                   Url = p.Url
+                                                   Url = p.Url,
+                                                   DataCompra = co.DataCompra
                                                }).AsNoTracking().ToListAsync();
 
                 return produtosCarrinhoUsuario;
