@@ -24,6 +24,7 @@ using Domain.Services;
 using Entities.Entities;
 using Domain.Interfaces.InterfaceCompraUsuario;
 using Domain.Interfaces.InterfaceCompra;
+using Domain.Interfaces.InterfaceLogSistema;
 
 namespace Web_ECommerce
 {
@@ -52,11 +53,13 @@ namespace Web_ECommerce
             services.AddSingleton<IProduct, RepositoryProduct>();
             services.AddSingleton<ICompraUsuario, RepositoryCompraUsuario>();
             services.AddSingleton<ICompra, RepositoryCompra>();
+            services.AddSingleton<ILogSistema, RepositoryLogSistema>();           
 
             // INTERFACE APLICAÇÃO
             services.AddSingleton<InterfaceProductApp, AppProduct>();
             services.AddSingleton<InterfaceCompraUsuarioApp, AppCompraUsuario>();
             services.AddSingleton<InterfaceCompraApp, AppCompra>();
+            services.AddSingleton<InterfaceLogSistemaApp, AppLogSistema>();
 
             // SERVIÇO DOMINIO
             services.AddSingleton<IServiceProduct, ServiceProduct>();

@@ -54,7 +54,7 @@ namespace Infrastructure.Repository.Repositories
                     return true;
                 }
             }
-            catch (Exception erro)
+            catch
             {
 
                 return false;
