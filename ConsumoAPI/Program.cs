@@ -51,12 +51,12 @@ namespace ConsumoAPI
 
                 var content = new StringContent(JsonObjeto, Encoding.UTF8, "application/json");
 
-                var resultado = cliente.PostAsync(urlApiGeraToken, content).Result;
+                var resultado = cliente.PostAsync(urlApiGeraToken, content);
+                resultado.Wait();
 
-                if (resultado.IsSuccessStatusCode)
+                if (resultado.Result.IsSuccessStatusCode)
                 {
-                    var tokenJson = resultado.Content.ReadAsStringAsync();
-                    tokenJson.Wait();
+                    var tokenJson = resultado.Result.Content.ReadAsStringAsync();
                     Token = JsonConvert.DeserializeObject(tokenJson.Result).ToString();
                 }
             }

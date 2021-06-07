@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Web_ECommerce.Token
+namespace WebApiSite.Token
 {
     public class TokenJWTBuilder
     {

@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Web_ECommerce.Token
+namespace WebApiSite.Token
 {
     public class TokenJWT
     {

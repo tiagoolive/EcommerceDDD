@@ -1,36 +1,22 @@
+using Entities.Entities;
+using HelpConfig;
+using Infrastructure.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.EntityFrameworkCore;
-using Web_ECommerce.Data;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Infrastructure.Configuration;
-using Infrastructure.Repository.Repositories;
-using Infrastructure.Repository.Generics;
-using Domain.Interfaces.Generics;
-using Domain.Interfaces.InterfaceProduct;
-using ApplicationApp.Interfaces;
-using ApplicationApp.OpenApp;
-using Domain.Interfaces.InterfaceServices;
-using Domain.Services;
-using Entities.Entities;
-using Domain.Interfaces.InterfaceCompraUsuario;
-using Domain.Interfaces.InterfaceCompra;
-using Domain.Interfaces.InterfaceLogSistema;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Domain.Interfaces.InterfaceUsuario;
-using HelpConfig;
+using WebApiSite.Token;
 
-namespace Web_ECommerce
+namespace WebApiSite
 {
     public class Startup
     {
@@ -54,8 +40,41 @@ namespace Web_ECommerce
 
             HelpStartup.ConfigureSingleton(services);
 
-            
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+              .AddJwtBearer(option =>
+              {
+                  option.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      ValidateIssuer = false,
+                      ValidateAudience = false,
+                      ValidateLifetime = true,
+                      ValidateIssuerSigningKey = true,
 
+                      ValidIssuer = "Teste.Securiry.Bearer",
+                      ValidAudience = "Teste.Securiry.Bearer",
+                      IssuerSigningKey = JwtSecurityKey.Create("Secret_Key-12345678")
+                  };
+
+                  option.Events = new JwtBearerEvents
+                  {
+                      OnAuthenticationFailed = context =>
+                      {
+                          Console.WriteLine("OnAuthenticationFailed: " + context.Exception.Message);
+                          return Task.CompletedTask;
+                      },
+                      OnTokenValidated = context =>
+                      {
+                          Console.WriteLine("OnTokenValidated: " + context.SecurityToken);
+                          return Task.CompletedTask;
+                      }
+                  };
+              });
+
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("UsuarioAPI",
+            //        policy => policy.RequireClaim("UsuarioAPINumero"));
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,14 +83,14 @@ namespace Web_ECommerce
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -79,7 +98,6 @@ namespace Web_ECommerce
 
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
